@@ -282,6 +282,12 @@ function(S)
   return result;
 end);
 
+InstallMethod(EdgesOfGraphInverseSemigroup,
+"for a graph inverse semigroup",
+[IsGraphInverseSemigroup],
+S -> Difference(GeneratorsOfInverseSemigroup(S),
+VerticesOfGraphInverseSemigroup(S)));
+
 InstallMethod(IndexOfVertexOfGraphInverseSemigroup,
 "for a graph inverse semigroup element",
 [IsGraphInverseSemigroupElement],
@@ -291,3 +297,8 @@ function(x)
   fi;
   return x![1][1] - DigraphNrEdges(x![2]);
 end);
+
+InstallMethod(IsWholeFamily,
+"for a subsemigroup of a graph inverse semigroup",
+[IsGraphInverseSubsemigroup],
+S -> Size(ElementsFamily(FamilyObj(S))!.semigroup) = Size(S));
