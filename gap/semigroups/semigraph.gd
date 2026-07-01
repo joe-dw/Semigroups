@@ -10,7 +10,7 @@
 
 DeclareOperation("GraphInverseSemigroup", [IsDigraph]);
 
-DeclareCategory("IsGraphInverseSemigroupElement", 
+DeclareCategory("IsGraphInverseSemigroupElement",
                  IsAssociativeElement and IsPositionalObjectRep);
 DeclareCategoryCollections("IsGraphInverseSemigroupElement");
 
@@ -26,6 +26,10 @@ DeclareAttribute("Range", IsGraphInverseSemigroupElement);
 DeclareAttribute("Source", IsGraphInverseSemigroupElement);
 
 DeclareOperation("IsVertex", [IsGraphInverseSemigroupElement]);
+
+DeclareAttribute("PositivePath", IsGraphInverseSemigroupElement);
+DeclareAttribute("NegativePath", IsGraphInverseSemigroupElement);
+# TODO IsEdge?
 
 InstallTrueMethod(IsGeneratorsOfInverseSemigroup,
                   IsGraphInverseSemigroupElementCollection);
