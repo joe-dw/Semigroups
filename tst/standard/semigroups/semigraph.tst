@@ -58,6 +58,36 @@ gap> List(x, Range);
 [ v_4, v_4, v_2, v_1, v_2, v_1, v_1, v_2, v_1, v_3, v_4, v_2, v_1, v_5, v_4, 
   v_2, v_1, v_3, v_4, v_2, v_1, v_5, v_4, v_2, v_1, v_3, v_4, v_2, v_1, v_5, 
   v_4, v_2, v_1, v_1, v_2, v_3, v_4, v_5 ]
+gap> List(x, PositivePath);
+[ v_5, v_3, v_5, v_5, v_3, v_3, v_2, e_1, e_1, e_1e_2, e_1e_2, e_1e_2, 
+  e_1e_2, e_1e_3, e_1e_3, e_1e_3, e_1e_3, e_2, e_2, e_2, e_2, e_3, e_3, e_3, 
+  e_3, e_4, e_4, e_4, e_4, e_5, e_5, e_5, e_5, v_1, v_2, v_3, v_4, v_5 ]
+gap> List(x, NegativePath);
+[ e_5^-1, e_4^-1, e_3^-1, e_3^-1e_1^-1, e_2^-1, e_2^-1e_1^-1, e_1^-1, v_2, 
+  e_1^-1, v_3, e_4^-1, e_2^-1, e_2^-1e_1^-1, v_5, e_5^-1, e_3^-1, 
+  e_3^-1e_1^-1, v_3, e_4^-1, e_2^-1, e_2^-1e_1^-1, v_5, e_5^-1, e_3^-1, 
+  e_3^-1e_1^-1, v_3, e_4^-1, e_2^-1, e_2^-1e_1^-1, v_5, e_5^-1, e_3^-1, 
+  e_3^-1e_1^-1, v_1, v_2, v_3, v_4, v_5 ]
+gap> List(x, EdgesWithSource);
+Syntax warning: Unbound global variable in stream:1
+List(x, EdgesWithSource);
+        ^^^^^^^^^^^^^^^
+Error, Variable: 'EdgesWithSource' must have a value
+gap> List(x, EdgesWithRange);
+Syntax warning: Unbound global variable in stream:1
+List(x, EdgesWithRange);
+        ^^^^^^^^^^^^^^
+Error, Variable: 'EdgesWithRange' must have a value
+gap> List(x, PathsWithSource);
+Syntax warning: Unbound global variable in stream:1
+List(x, PathsWithSource);
+        ^^^^^^^^^^^^^^^
+Error, Variable: 'PathsWithSource' must have a value
+gap> List(x, PathsWithRange);
+Syntax warning: Unbound global variable in stream:1
+List(x, PathsWithRange);
+        ^^^^^^^^^^^^^^
+Error, Variable: 'PathsWithRange' must have a value
 gap> AssignGeneratorVariables(S);
 gap> String(gr);
 "DigraphFromDigraph6String(\"&DOS@O?\")"
