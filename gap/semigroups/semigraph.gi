@@ -8,6 +8,10 @@
 #############################################################################
 ##
 
+# TODO: Implement special methods for:
+# * NrIdempotents
+# * IdempotentGeneratedSubsemigroup
+
 InstallMethod(AsMonoid, "for a graph inverse semigroup",
 [IsGraphInverseSemigroup], ReturnFail);
 
@@ -285,14 +289,8 @@ end);
 InstallMethod(EdgesOfGraphInverseSemigroup,
 "for a graph inverse semigroup",
 [IsGraphInverseSemigroup],
-<<<<<<< HEAD
 S -> Difference(GeneratorsOfInverseSemigroup(S),
 VerticesOfGraphInverseSemigroup(S)));
-=======
-function(S)
-  return Difference(GeneratorsOfInverseSemigroup(S), VerticesOfGraphInverseSemigroup(S));
-end);
->>>>>>> 8a43ee22 (Set IsPositionalObjectRep on graph inverse semigroup elements, added attribute EdgesOfGraphInverseSemigroup and added IsWholeFamily test to graph inverse subsemigroups)
 
 InstallMethod(IndexOfVertexOfGraphInverseSemigroup,
 "for a graph inverse semigroup element",
@@ -307,10 +305,26 @@ end);
 InstallMethod(IsWholeFamily,
 "for a subsemigroup of a graph inverse semigroup",
 [IsGraphInverseSubsemigroup],
-<<<<<<< HEAD
 S -> Size(ElementsFamily(FamilyObj(S))!.semigroup) = Size(S));
-=======
-function(S)
-  return Size(ElementsFamily(FamilyObj(S))!.semigroup) = Size(S);
+
+InstallMethod(PositivePath,
+"for a graph inverse semigroup element",
+[IsGraphInverseSemigroupElement],
+function(elt)
+  local pos, S;
+
+  pos := PositionProperty(elt![1], IsNegInt);
+  if pos = fail then
+    return elt;
+  elif pos = 1 then
+    return Source(elt);
+  fi;
+  # Get the semigroup containing "elt"
+  S := FamilyObj(elt)!.semigroup;
+  return EvaluateWord(GeneratorsOfSemigroup(S), elt![1]{[1 .. pos - 1]});
 end);
->>>>>>> 8a43ee22 (Set IsPositionalObjectRep on graph inverse semigroup elements, added attribute EdgesOfGraphInverseSemigroup and added IsWholeFamily test to graph inverse subsemigroups)
+
+InstallMethod(NegativePath,
+"for a graph inverse semigroup element",
+[IsGraphInverseSemigroupElement],
+elt -> PositivePath(elt ^ -1) ^ -1);
