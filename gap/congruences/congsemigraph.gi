@@ -306,6 +306,34 @@ function(cong)
   return tr;
 end);
 
+InstallMethod(JoinSemigroupCongruences,
+"for two traces of congruences by Wang pair",
+[IsTraceOfCongruenceByWangPair, IsTraceOfCongruenceByWangPair],
+function(tr1, tr2)
+  return TraceOfCongruenceByWangPair(JoinSemigroupCongruences(tr1!.cong,tr2!.cong));
+end);
+
+InstallMethod(MeetSemigroupCongruences,
+"for two traces of congruences by Wang pair",
+[IsTraceOfCongruenceByWangPair, IsTraceOfCongruenceByWangPair],
+function(tr1, tr2)
+  return TraceOfCongruenceByWangPair(MeetSemigroupCongruences(tr1!.cong,tr2!.cong));
+end);
+
+InstallMethod(IsSubrelation,
+"for two traces of congruences by Wang pair",
+[IsTraceOfCongruenceByWangPair, IsTraceOfCongruenceByWangPair],
+function(tr1, tr2)
+  return IsSubrelation(tr1!.cong,tr2!.cong);
+end);
+
+InstallMethod(IsSuperrelation,
+"for two traces of congruences by Wang pair",
+[IsTraceOfCongruenceByWangPair, IsTraceOfCongruenceByWangPair],
+function(tr1, tr2)
+  return IsSuperrelation(tr1!.cong,tr2!.cong);
+end);
+
 InstallMethod(ViewObj, "for trace of a congruence by Wang pair",
 [IsTraceOfCongruenceByWangPair],
 function(tr)
@@ -578,4 +606,12 @@ InstallMethod(CongruenceTestMembershipNC,
 138,
 function(cong,x,y)
   return CongruenceTestMembershipNC(TraceOfCongruenceByWangPair(cong),x^-1 * x, y^-1 * y) and (IsIdempotent(x * y ^ -1) or IndexOfVertexOfGraphInverseSemigroup(Range(PositivePath(x * y ^ -1))) in cong!.H);
+end);
+
+InstallMethod(TraceOfSemigroupCongruence,
+"for a congruence by Wang Pair",
+[IsCongruenceByWangPair],
+138,
+function(cong)
+  return TraceOfCongruenceByWangPair(cong);
 end);

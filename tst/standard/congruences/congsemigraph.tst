@@ -98,15 +98,14 @@ gap> AsSemigroupCongruenceByGeneratingPairs(C);
 <2-sided semigroup congruence over <finite graph inverse semigroup with 
 4 vertices, 4 edges> with 2 generating pairs>
 gap> EquivalenceRelationPartition(C);
-[ [ e_1, e_1e_3e_3^-1 ], 
-  [ e_4, v_4, e_4^-1, 0, e_2e_4, e_3e_4, e_4e_4^-1, e_4^-1e_2^-1, 
-      e_4^-1e_3^-1, e_1e_3e_4, e_2e_4e_4^-1, e_3e_4e_4^-1, e_4e_4^-1e_2^-1, 
-      e_4e_4^-1e_3^-1, e_4^-1e_3^-1e_1^-1, e_1e_3e_4e_4^-1, 
-      e_2e_4e_4^-1e_2^-1, e_2e_4e_4^-1e_3^-1, e_3e_4e_4^-1e_2^-1, 
-      e_3e_4e_4^-1e_3^-1, e_4e_4^-1e_3^-1e_1^-1, e_1e_3e_4e_4^-1e_2^-1, 
-      e_1e_3e_4e_4^-1e_3^-1, e_2e_4e_4^-1e_3^-1e_1^-1, 
-      e_3e_4e_4^-1e_3^-1e_1^-1, e_1e_3e_4e_4^-1e_3^-1e_1^-1 ], 
-  [ v_2, e_3e_3^-1 ], [ e_1^-1, e_3e_3^-1e_1^-1 ], 
+[ [ 0, v_4, e_4^-1, e_4^-1e_2^-1, e_4^-1e_3^-1, e_4^-1e_3^-1e_1^-1, e_4, 
+      e_4e_4^-1, e_4e_4^-1e_2^-1, e_4e_4^-1e_3^-1, e_4e_4^-1e_3^-1e_1^-1, 
+      e_2e_4, e_2e_4e_4^-1, e_2e_4e_4^-1e_2^-1, e_2e_4e_4^-1e_3^-1, 
+      e_2e_4e_4^-1e_3^-1e_1^-1, e_3e_4, e_3e_4e_4^-1, e_3e_4e_4^-1e_2^-1, 
+      e_3e_4e_4^-1e_3^-1, e_3e_4e_4^-1e_3^-1e_1^-1, e_1e_3e_4, 
+      e_1e_3e_4e_4^-1, e_1e_3e_4e_4^-1e_2^-1, e_1e_3e_4e_4^-1e_3^-1, 
+      e_1e_3e_4e_4^-1e_3^-1e_1^-1 ], [ v_2, e_3e_3^-1 ], 
+  [ e_1^-1, e_3e_3^-1e_1^-1 ], [ e_1, e_1e_3e_3^-1 ], 
   [ e_1e_1^-1, e_1e_3e_3^-1e_1^-1 ] ]
 gap> D := ChainDigraph(4);
 <immutable chain digraph with 4 vertices>
@@ -287,6 +286,10 @@ gap> IsSuperrelation(cong1, cong2);
 false
 gap> IsSuperrelation(cong2, cong1);
 true
+gap> IsSubrelation(TraceOfCongruenceByWangPair(cong1),TraceOfCongruenceByWangPair(cong2)) = IsSubrelation(cong1,cong2);
+true
+gap> IsSuperrelation(TraceOfCongruenceByWangPair(cong1),TraceOfCongruenceByWangPair(cong2)) = IsSuperrelation(cong1,cong2);
+true
 gap> cong1 := CongruenceByWangPair(S, [2, 3, 4], []);
 <graph inverse semigroup congruence with H = [ 2, 3, 4 ] and W = [  ]>
 gap> cong2 := CongruenceByWangPair(S, [4], [1]);
@@ -416,6 +419,10 @@ gap> val := true;;
 > od;
 > val;
 true
+gap> c := C[6];
+gap> EquivalenceRelationPartition(c);
+gap> EquivalenceRelationPartition(TraceOfCongruenceByWangPair(c));
+gap> 
 
 #
 gap> SEMIGROUPS.StopTest();
