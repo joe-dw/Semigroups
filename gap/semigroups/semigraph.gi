@@ -285,8 +285,14 @@ end);
 InstallMethod(EdgesOfGraphInverseSemigroup,
 "for a graph inverse semigroup",
 [IsGraphInverseSemigroup],
+<<<<<<< HEAD
 S -> Difference(GeneratorsOfInverseSemigroup(S),
 VerticesOfGraphInverseSemigroup(S)));
+=======
+function(S)
+  return Difference(GeneratorsOfInverseSemigroup(S), VerticesOfGraphInverseSemigroup(S));
+end);
+>>>>>>> 8a43ee22 (Set IsPositionalObjectRep on graph inverse semigroup elements, added attribute EdgesOfGraphInverseSemigroup and added IsWholeFamily test to graph inverse subsemigroups)
 
 InstallMethod(IndexOfVertexOfGraphInverseSemigroup,
 "for a graph inverse semigroup element",
@@ -301,4 +307,10 @@ end);
 InstallMethod(IsWholeFamily,
 "for a subsemigroup of a graph inverse semigroup",
 [IsGraphInverseSubsemigroup],
+<<<<<<< HEAD
 S -> Size(ElementsFamily(FamilyObj(S))!.semigroup) = Size(S));
+=======
+function(S)
+  return Size(ElementsFamily(FamilyObj(S))!.semigroup) = Size(S);
+end);
+>>>>>>> 8a43ee22 (Set IsPositionalObjectRep on graph inverse semigroup elements, added attribute EdgesOfGraphInverseSemigroup and added IsWholeFamily test to graph inverse subsemigroups)

@@ -10,7 +10,11 @@
 
 DeclareOperation("GraphInverseSemigroup", [IsDigraph]);
 
+<<<<<<< HEAD
 DeclareCategory("IsGraphInverseSemigroupElement",
+=======
+DeclareCategory("IsGraphInverseSemigroupElement", 
+>>>>>>> 8a43ee22 (Set IsPositionalObjectRep on graph inverse semigroup elements, added attribute EdgesOfGraphInverseSemigroup and added IsWholeFamily test to graph inverse subsemigroups)
                  IsAssociativeElement and IsPositionalObjectRep);
 DeclareCategoryCollections("IsGraphInverseSemigroupElement");
 
