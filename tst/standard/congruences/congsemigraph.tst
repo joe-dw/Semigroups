@@ -286,9 +286,9 @@ gap> IsSuperrelation(cong1, cong2);
 false
 gap> IsSuperrelation(cong2, cong1);
 true
-gap> IsSubrelation(TraceOfCongruenceByWangPair(cong1),TraceOfCongruenceByWangPair(cong2)) = IsSubrelation(cong1,cong2);
+gap> IsSubrelation(TraceOfCongruenceByWangPair(cong1), TraceOfCongruenceByWangPair(cong2)) = IsSubrelation(cong1, cong2);
 true
-gap> IsSuperrelation(TraceOfCongruenceByWangPair(cong1),TraceOfCongruenceByWangPair(cong2)) = IsSuperrelation(cong1,cong2);
+gap> IsSuperrelation(TraceOfCongruenceByWangPair(cong1), TraceOfCongruenceByWangPair(cong2)) = IsSuperrelation(cong1, cong2);
 true
 gap> cong1 := CongruenceByWangPair(S, [2, 3, 4], []);
 <graph inverse semigroup congruence with H = [ 2, 3, 4 ] and W = [  ]>
