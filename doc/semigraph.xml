@@ -325,7 +325,7 @@ gap> IndexOfVertexOfGraphInverseSemigroup(v_3);
     vertices as paths of length 0. If <A>x</A> is not a vertex then it returns all 
     paths with source <A>Range(x)</A>. 
     <Example><![CDATA[
-ap> D := Digraph([[2,3],[3,4],[4],[]]);
+gap> D := Digraph([[2,3],[3,4],[4],[]]);
 <immutable digraph with 4 vertices, 5 edges>
 gap> S := GraphInverseSemigroup(D);
 <finite graph inverse semigroup with 4 vertices, 5 edges>
@@ -337,7 +337,7 @@ gap> EdgesWithSource(VerticesOfGraphInverseSemigroup(S)[2]);
 [ e_3, e_4 ]
 gap> PathsWithSource(VerticesOfGraphInverseSemigroup(S)[2]);     
 [ v_2, e_3, e_3e_5, e_4 ]
-3]]></Example>
+]]></Example>
   </Description>
 </ManSection>
 <#/GAPDoc>
