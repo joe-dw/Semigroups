@@ -119,22 +119,10 @@ static Int InitLibrary(StructInitInfo* module) {
 }
 
 static StructInitInfo module = {
-    /* type        = */ MODULE_DYNAMIC,
-    /* name        = */ "gapbind_demo",
-    /* revision_c  = */ 0,
-    /* revision_h  = */ 0,
-    /* version     = */ 0,
-    /* crc         = */ 0,
-    /* initKernel  = */ InitKernel,
-    /* initLibrary = */ InitLibrary,
-    /* checkInit   = */ 0,
-    /* preSave     = */ 0,
-    /* postSave    = */ 0,
-    /* postRestore = */ 0,
-    /* moduleStateSize      = */ 0,
-    /* moduleStateOffsetPtr = */ 0,
-    /* initModuleState      = */ 0,
-    /* destroyModuleState   = */ 0,
+    .type        = MODULE_DYNAMIC,
+    .name        = "gapbind_demo",
+    .initKernel  = InitKernel,
+    .initLibrary = InitLibrary,
 };
 
 extern "C" StructInitInfo* Init__Dynamic(void) {

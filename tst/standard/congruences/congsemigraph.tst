@@ -9,7 +9,7 @@
 ############################################################################
 #
 
-#@local C, D, L, S, cong, cong1, cong2, e_1, e_3, i, j, join, meet, pos, val
+#@local c, C, D, L, S, cong, cong1, cong2, e_1, e_3, i, j, join, meet, pos, val
 gap> START_TEST("Semigroups package: standard/congruences/congsemigraph.tst");
 gap> LoadPackage("semigroups", false);;
 
@@ -420,8 +420,23 @@ gap> val := true;;
 > val;
 true
 gap> c := C[6];
+<graph inverse semigroup congruence with H = [ 4 ] and W = [ 1, 2 ]>
 gap> EquivalenceRelationPartition(c);
+[ [ 0, v_4, e_3^-1, e_3^-1e_1^-1, e_4^-1, e_4^-1e_2^-1, e_4^-1e_2^-1e_1^-1, 
+      e_3, e_3e_3^-1, e_3e_3^-1e_1^-1, e_3e_4^-1, e_3e_4^-1e_2^-1, 
+      e_3e_4^-1e_2^-1e_1^-1, e_1e_3, e_1e_3e_3^-1, e_1e_3e_3^-1e_1^-1, 
+      e_1e_3e_4^-1, e_1e_3e_4^-1e_2^-1, e_1e_3e_4^-1e_2^-1e_1^-1, e_4, 
+      e_4e_3^-1, e_4e_3^-1e_1^-1, e_4e_4^-1, e_4e_4^-1e_2^-1, 
+      e_4e_4^-1e_2^-1e_1^-1, e_2e_4, e_2e_4e_3^-1, e_2e_4e_3^-1e_1^-1, 
+      e_2e_4e_4^-1, e_2e_4e_4^-1e_2^-1, e_2e_4e_4^-1e_2^-1e_1^-1, e_1e_2e_4, 
+      e_1e_2e_4e_3^-1, e_1e_2e_4e_3^-1e_1^-1, e_1e_2e_4e_4^-1, 
+      e_1e_2e_4e_4^-1e_2^-1, e_1e_2e_4e_4^-1e_2^-1e_1^-1 ], 
+  [ v_1, e_1e_1^-1, e_1e_2e_2^-1e_1^-1 ], [ v_2, e_2e_2^-1 ], 
+  [ e_1^-1, e_2e_2^-1e_1^-1 ], [ e_1, e_1e_2e_2^-1 ] ]
 gap> EquivalenceRelationPartition(TraceOfCongruenceByWangPair(c));
+[ [ 0, v_4, e_3e_3^-1, e_1e_3e_3^-1e_1^-1, e_4e_4^-1, e_2e_4e_4^-1e_2^-1, 
+      e_1e_2e_4e_4^-1e_2^-1e_1^-1 ], [ v_1, e_1e_1^-1, e_1e_2e_2^-1e_1^-1 ], 
+  [ v_2, e_2e_2^-1 ] ]
 gap> 
 
 #
