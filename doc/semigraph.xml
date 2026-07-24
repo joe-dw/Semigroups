@@ -258,7 +258,7 @@ gap> VerticesOfGraphInverseSemigroup(S);
   <Returns>A positive integer.</Returns>
   <Description>
     If <A>v</A> is a vertex of a graph inverse semigroup (i.e. it satisfies
-    <Ref Filt="IsGraphInverseSemigroup"/>), then this attribute returns the
+    <Ref Filt="IsGraphInverseSemigroupElement"/>), then this attribute returns the
     index of this vertex in <A>S</A>.<P/>
 
     <Example><![CDATA[
@@ -280,7 +280,7 @@ gap> IndexOfVertexOfGraphInverseSemigroup(v_3);
   <Returns>A list of graph inverse semigroup elements.</Returns>
   <Description>
     If <A>x</A> is a vertex of a graph inverse semigroup (i.e. it satisfies
-    <Ref Filt="IsGraphInverseSemigroup"/>), then this attribute returns a list
+    <Ref Filt="IsGraphInverseSemigroupElement"/>), then this attribute returns a list
     of all edges <A>e</A> such that <A>Range(e)=x</A>. If <A>x</A> is not a vertex
     then it returns all edges with range <A>Source(x)</A>. 
   </Description>
@@ -293,7 +293,7 @@ gap> IndexOfVertexOfGraphInverseSemigroup(v_3);
   <Returns>A list of graph inverse semigroup elements.</Returns>
   <Description>
     If <A>x</A> is a vertex of a graph inverse semigroup (i.e. it satisfies
-    <Ref Filt="IsGraphInverseSemigroup"/>), then this attribute returns a list
+    <Ref Filt="IsGraphInverseSemigroupElement"/>), then this attribute returns a list
     of all paths (products of edges) <A>p</A> such that <A>Range(p)=x</A>, including 
     vertices as paths of length 0. If <A>x</A> is not a vertex then it returns all 
     paths with range <A>Source(x)</A>. 
@@ -307,20 +307,20 @@ gap> IndexOfVertexOfGraphInverseSemigroup(v_3);
   <Returns>A list of graph inverse semigroup elements.</Returns>
   <Description>
     If <A>x</A> is a vertex of a graph inverse semigroup (i.e. it satisfies
-    <Ref Filt="IsGraphInverseSemigroup"/>), then this attribute returns a list
+    <Ref Filt="IsGraphInverseSemigroupElement"/>), then this attribute returns a list
     of all edges <A>e</A> such that <A>Source(e)=x</A>. If <A>x</A> is not a vertex
     then it returns all edges with source <A>Range(x)</A>. 
   </Description>
 </ManSection>
 <#/GAPDoc>
 
-<#GAPDoc Label="PathsWithRange">
+<#GAPDoc Label="PathsWithSource">
 <ManSection>
-  <Attr Name="PathsWithRange" Arg="x"/>
+  <Attr Name="PathsWithSource" Arg="x"/>
   <Returns>A list of graph inverse semigroup elements.</Returns>
   <Description>
     If <A>x</A> is a vertex of a graph inverse semigroup (i.e. it satisfies
-    <Ref Filt="IsGraphInverseSemigroup"/>), then this attribute returns a list
+    <Ref Filt="IsGraphInverseSemigroupElement"/>), then this attribute returns a list
     of all paths (products of edges) <A>p</A> such that <A>Source(p)=x</A>, including 
     vertices as paths of length 0. If <A>x</A> is not a vertex then it returns all 
     paths with source <A>Range(x)</A>. 
