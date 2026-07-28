@@ -76,6 +76,7 @@ ReadPackage("semigroups", "gap/main/lambda-rho.gd");
 ReadPackage("semigroups", "gap/main/acting.gd");
 ReadPackage("semigroups", "gap/main/graded.gd");
 ReadPackage("semigroups", "gap/main/orbits.gd");
+ReadPackage("semigroups", "gap/main/orbits-pairs.gd");
 
 ReadPackage("semigroups", "gap/semigroups/semibipart.gd");
 ReadPackage("semigroups", "gap/semigroups/semiboolmat.gd");

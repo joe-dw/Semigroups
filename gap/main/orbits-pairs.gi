@@ -1,4 +1,4 @@
-PartitionRightCosets := function(S, SS, G)
+BindGlobal("PARTITION_RIGHT_COSETS", function(S, SS, G)
   local RC, uf, i, C, c;
   RC := RightCosets(S, G);
   uf := PartitionDS(IsPartitionDS, Size(S));
@@ -9,9 +9,9 @@ PartitionRightCosets := function(S, SS, G)
     od;
   od;
   return uf;
-end;
+end);
 
-PartitionLeftCosets := function(S, SS, G)
+BindGlobal("PARTITION_LEFT_COSETS", function(S, SS, G)
   local LC, uf, i, C, c;
   LC := LeftCosets(S, G);
   uf := PartitionDS(IsPartitionDS, Size(S));
@@ -22,9 +22,9 @@ PartitionLeftCosets := function(S, SS, G)
     od;
   od;
   return uf;
-end;
+end);
 
-PartitionInverses := function(G)
+BindGlobal("PARTITION_INVERSES", function(G)
   local elts, parts, g, h;
   elts := Elements(G);
   parts := [];
@@ -37,7 +37,7 @@ PartitionInverses := function(G)
     fi;
   od;
   return parts;
-end;
+end);
 
 # RootsOfPartitionDS := function(uf)
 #   local pt, gp, data, n, result;
@@ -59,7 +59,7 @@ end;
 #     return result;
 # end;
 # 
-UfJoin := function(uf1parts, uf2)
+BindGlobal("UF_JOIN", function(uf1parts, uf2)
     local join, rep, part, x;
     join := ShallowCopy(uf2);
     for part in uf1parts do
@@ -69,9 +69,9 @@ UfJoin := function(uf1parts, uf2)
       od;
     od;
     return join;
-end;
+end);
 
-UfFromPartition := function(domain, partition)
+BindGlobal("UF_FROM_PARTITION", function(domain, partition)
   local uf, part, k, p;
   uf := PartitionDS(IsPartitionDS, Size(domain));
   for part in partition do
@@ -81,9 +81,9 @@ UfFromPartition := function(domain, partition)
     od;
   od;
   return uf;
-end;
+end);
 
-OrbitsOfPairs := function(G, S, act)
+InstallGlobalFunction(OrbitsOfPairs, function(G, S, act)
   local T, tLength, A, GS, J, D, R, L, invPartition, invPartUF, invParts, i,
     lParts, j, pairs, g, x, y;
   T := List(Orbits(G, S, act), l -> l[1]);
@@ -94,12 +94,12 @@ OrbitsOfPairs := function(G, S, act)
   D := [];
   R := [];
   L := [];
-  invPartition := PartitionInverses(G);
-  invPartUF := UfFromPartition(GS, invPartition);
+  invPartition := PARTITION_INVERSES(G);
+  invPartUF := UF_FROM_PARTITION(GS, invPartition);
   invParts := PartsOfPartitionDS(invPartUF);
   for i in [1 .. tLength] do
-    Add(R, PartitionRightCosets(G, GS, A[i]));
-    Add(L, PartitionLeftCosets(G, GS, A[i]));
+    Add(R, PARTITION_RIGHT_COSETS(G, GS, A[i]));
+    Add(L, PARTITION_LEFT_COSETS(G, GS, A[i]));
     Print(Concatenation(["\rPartitioned Cosets ", String(i), " of ",
       String(tLength)]));
   od;
@@ -110,10 +110,10 @@ OrbitsOfPairs := function(G, S, act)
     Add(J, []);
     Add(D, []);
     for j in [1 .. i - 1] do
-      Add(J[i], UfJoin(lParts[j], R[i]));
+      Add(J[i], UF_JOIN(lParts[j], R[i]));
       Add(D[i], List(RootsOfPartitionDS(J[i][j]), k -> GS[k]));
     od;
-    Add(J[i], UfJoin(lParts[i], (UfJoin(invParts, R[i]))));
+    Add(J[i], UF_JOIN(lParts[i], (UF_JOIN(invParts, R[i]))));
     Add(D[i], List(RootsOfPartitionDS(J[i][i]), k -> GS[k]));
     Print(Concatenation(["\rFound Join for Element ", String(i), " of ",
       String(tLength)]));
@@ -141,9 +141,9 @@ OrbitsOfPairs := function(G, S, act)
   od;
   Print("\033[2K\rFound All Pairs\n");
   return pairs;
-end;
+end);
 
-OrbitsOfPairsWithCount := function(G, S, act)
+InstallGlobalFunction(OrbitsOfPairsWithCount, function(G, S, act)
   local T, tLength, A, GS, J, D, R, L, invPartition, invPartUF, invParts, i,
     lParts, j, pairs, g, x, y;
   T := List(Orbits(G, S, act), l -> l[1]);
@@ -154,12 +154,12 @@ OrbitsOfPairsWithCount := function(G, S, act)
   D := [];
   R := [];
   L := [];
-  invPartition := PartitionInverses(G);
-  invPartUF := UfFromPartition(GS, invPartition);
+  invPartition := PARTITION_INVERSES(G);
+  invPartUF := UF_FROM_PARTITION(GS, invPartition);
   invParts := PartsOfPartitionDS(invPartUF);
   for i in [1 .. tLength] do
-    Add(R, PartitionRightCosets(G, GS, A[i]));
-    Add(L, PartitionLeftCosets(G, GS, A[i]));
+    Add(R, PARTITION_RIGHT_COSETS(G, GS, A[i]));
+    Add(L, PARTITION_LEFT_COSETS(G, GS, A[i]));
     Print(Concatenation(["\rPartitioned Cosets ", String(i), " of ",
       String(tLength)]));
   od;
@@ -170,10 +170,10 @@ OrbitsOfPairsWithCount := function(G, S, act)
     Add(J, []);
     Add(D, []);
     for j in [1 .. i - 1] do
-      Add(J[i], UfJoin(lParts[j], R[i]));
+      Add(J[i], UF_JOIN(lParts[j], R[i]));
       Add(D[i], List(RootsOfPartitionDS(J[i][j]), k -> GS[k]));
     od;
-    Add(J[i], UfJoin(lParts[i], (UfJoin(invParts, R[i]))));
+    Add(J[i], UF_JOIN(lParts[i], (UF_JOIN(invParts, R[i]))));
     Add(D[i], List(RootsOfPartitionDS(J[i][i]), k -> GS[k]));
     Print(Concatenation(["\rFound Join for Element ", String(i), " of ",
       String(tLength)]));
@@ -201,7 +201,7 @@ OrbitsOfPairsWithCount := function(G, S, act)
   od;
   Print("\033[2K\rFound All Pairs\n");
   return pairs;
-end;
+end);
 
 # OrbitsOfPairsIterator := undefined;
 # 

@@ -37,6 +37,7 @@ ReadPackage("semigroups", "gap/main/lambda-rho.gi");
 ReadPackage("semigroups", "gap/main/graded.gi");
 ReadPackage("semigroups", "gap/main/orbits.gi");
 ReadPackage("semigroups", "gap/main/semiact.gi");
+ReadPackage("semigroups", "gap/main/orbits-pairs.gi");
 
 ReadPackage("semigroups", "gap/semigroups/semigrp.gi");
 ReadPackage("semigroups", "gap/semigroups/grpperm.gi");
