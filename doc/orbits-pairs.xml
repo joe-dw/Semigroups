@@ -1,0 +1,39 @@
+#############################################################################
+##
+#W  orbits-pairs.xml
+#Y  Copyright (C) 2011-13                                        Joseph Ward
+##
+##  Licensing information can be found in the README file of this package.
+##
+#############################################################################
+##
+
+<#GAPDoc Label="OrbitsOfPairs">
+  <ManSection>
+    <Func Name = "OrbitsOfPairs" Arg = "G, S, act"/>
+    <Returns>
+      A list of pairs of elements of <A>S</A>.
+    </Returns>
+    <Description>
+      Given a group <A>G</A>, set <A>S</A> and group action <A>act</A> of G on
+      S, this function returns a list of pairs of elements of <A>S</A> such 
+      that each one is a representative of one orbit of the two-element subsets
+      of <A>S</A> under <A>act</A>.
+    </Description>
+  </ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="IteratorOfOrbitsOfPairs">
+  <ManSection>
+    <Func Name = "IteratorOfOrbitsOfPairs" Arg = "G, S, act"/>
+    <Returns>
+      A n iterator of pairs of elements of <A>S</A>.
+    </Returns>
+    <Description>
+      Given a group <A>G</A>, set <A>S</A> and group action <A>act</A> of G on
+      S, this function returns an iterator which lists pairs of elements of 
+      <A>S</A> such that each one is a representative of one orbit of the
+      two-element subsets of <A>S</A> under <A>act</A>.
+    </Description>
+  </ManSection>
+<#/GAPDoc>
