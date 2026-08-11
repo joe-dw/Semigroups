@@ -9,6 +9,6 @@
 ##
 
 DeclareGlobalFunction("OrbitsOfPairs");
-  # DeclareGlobalFunction("OrbitsOfPairsWithCount");
+DeclareGlobalFunction("OrbitsOfPairsWithCount");
 DeclareGlobalFunction("IteratorOfOrbitsOfPairs");
-  # DeclareGlobalFunction("IteratorOfOrbitsOfPairsWithCount");
+DeclareGlobalFunction("IteratorOfOrbitsOfPairsWithCount");
