@@ -39,25 +39,25 @@ BindGlobal("PARTITION_INVERSES", function(G)
   return parts;
 end);
 
-  # RootsOfPartitionDS := function(uf)
-  #   local pt, gp, data, n, result;
-  # 
-  #     pt := 0;
-  #     gp := UF.getParent;
-  #     data := uf!.data;
-  #     n := SizeUnderlyingSetDS(uf);
-  #     result := [];
-  #     while pt <= n do
-  #       pt := pt + 1;
-  #       while pt <= n and gp(data[pt]) <> pt do
-  #         pt := pt + 1;
-  #       od;
-  #       if pt <= n then
-  #         Add(result, pt);
-  #       fi;
-  #     od;
-  #     return result;
-  # end;
+RootsOfPartitionDS := function(uf)
+  local pt, gp, data, n, result;
+
+    pt := 0;
+    gp := UF.getParent;
+    data := uf!.data;
+    n := SizeUnderlyingSetDS(uf);
+    result := [];
+    while pt <= n do
+      pt := pt + 1;
+      while pt <= n and gp(data[pt]) <> pt do
+        pt := pt + 1;
+      od;
+      if pt <= n then
+        Add(result, pt);
+      fi;
+    od;
+    return result;
+end;
 
 BindGlobal("UF_JOIN", function(uf1parts, uf2)
     local join, rep, part, x;
