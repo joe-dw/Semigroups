@@ -364,6 +364,39 @@ InstallMethod(IsIsomorphicSemigroup,
 {G1, G2} -> IsIsomorphicDigraph(GraphOfGraphInverseSemigroup(G1),
   GraphOfGraphInverseSemigroup(G2)));
 
+InstallMethod(IsomorphismSemigroups,
+"for two graph  inverse semigroups",
+[IsGraphInverseSemigroup, IsGraphInverseSemigroup],
+function(G1, G2)
+  local digraphIsom, vertsImages, n, edges1, edges2;
+  digraphIsom := IsomorphismDigraphs(GraphOfGraphInverseSemigroup(G1),
+                 GraphOfGraphInverseSemigroup(G2));
+  if digraphIsom = fail then
+    return fail;
+  elif DigraphNrVertices(GraphOfGraphInverseSemigroup(G1)) < 2 then
+    return SemigroupIsomorphismByImages(G1, G2, GeneratorsOfSemigroup(G1),
+    GeneratorsOfSemigroup(G2));
+  fi;
+  # find indices of images of vertices in G2
+  vertsImages := Permuted(VerticesOfGraphInverseSemigroup(G2), digraphIsom);
+  # order edges by their source and range, e_1 < e_2 if
+  # Source(e_1) < Source(e_2) or Source(e_1) = Source(e_2) and
+  # Range(e_1) < Range(e_2)
+  edges1 := ShallowCopy(EdgesOfGraphInverseSemigroup(G1));
+  edges2 := ShallowCopy(EdgesOfGraphInverseSemigroup(G2));
+  n := DigraphNrVertices(GraphOfGraphInverseSemigroup(G1));
+  SortBy(edges1, e -> n * IndexOfVertexOfGraphInverseSemigroup(Source(e)) +
+                 IndexOfVertexOfGraphInverseSemigroup(Range(e)));
+  SortBy(edges2, e -> n * OnPoints(
+           IndexOfVertexOfGraphInverseSemigroup(Source(e)), digraphIsom ^ -1) +
+           OnPoints(IndexOfVertexOfGraphInverseSemigroup(Range(e)),
+             digraphIsom ^ -1));
+  return SemigroupIsomorphismByImages(G1, G2,
+           Concatenation(edges1, VerticesOfGraphInverseSemigroup(G1),
+             List(edges1, e -> e ^ -1),
+             Concatenation(edges2, vertsImages, List(edges2, e -> e ^ -1))));
+end);
+
 InstallMethod(EdgesWithRange,
 "for a graph inverse semigroup element",
 [IsGraphInverseSemigroupElement],
