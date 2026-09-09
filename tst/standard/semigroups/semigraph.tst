@@ -8,7 +8,7 @@
 #############################################################################
 ##
 
-#@local D, DigraphNrVertices, DigraphRange, DigraphSource, S, gr, s, x, y, G, H
+#@local D, DigraphNrVertices, DigraphRange, DigraphSource, S, gr, s, x, y, G, H, isom
 gap> START_TEST("Semigroups package: standard/semigroups/semigraph.tst");
 gap> LoadPackage("semigroups", false);;
 
@@ -187,6 +187,21 @@ gap> G.1 * RightOne(G.1) = G.1;
 true
 gap> LeftOne(G.1) * G.1 = G.1;
 true
+
+# Test IsomorphismSemigroups
+gap> G := GraphInverseSemigroup(Digraph([ [], [1], [], [2, 6], [2, 3], [1, 2] ]));
+<finite graph inverse semigroup with 6 vertices, 7 edges>
+gap> H := GraphInverseSemigroup(Digraph([ [2, 4], [6], [2, 5], [2, 6], [], [] ]));
+<finite graph inverse semigroup with 6 vertices, 7 edges>
+gap> isom := IsomorphismSemigroups(G, H);
+<finite graph inverse semigroup with 6 vertices, 7 edges> -> 
+<finite graph inverse semigroup with 6 vertices, 7 edges>
+gap> ForAll(Tuples(GeneratorsOfSemigroup(G), 2), p -> Image(isom, p[1] * p[2]) = Image(isom, p[1]) * Image(isom, p[2]));
+true
+gap> IsomorphismSemigroups(G, GraphInverseSemigroup(ChainDigraph(6)));
+fail
+gap> IsomorphismSemigroups(G, GraphInverseSemigroup(Digraph([])));
+fail
 
 #
 gap> SEMIGROUPS.StopTest();
