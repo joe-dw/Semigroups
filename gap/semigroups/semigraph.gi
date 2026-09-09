@@ -368,9 +368,9 @@ InstallMethod(IsomorphismSemigroups,
 "for two graph  inverse semigroups",
 [IsGraphInverseSemigroup, IsGraphInverseSemigroup],
 function(G1, G2)
-  local digraphIsom, vertsImages, n, edges1, edges2;
-  digraphIsom := IsomorphismDigraphs(GraphOfGraphInverseSemigroup(G1),
-                 GraphOfGraphInverseSemigroup(G2));
+  local digraphIsom, vertsImages, n, edges1, edges2, gens1, gens2;
+  digraphIsom := IsomorphismDigraphs(GraphOfGraphInverseSemigroup(G2),
+                 GraphOfGraphInverseSemigroup(G1));
   if digraphIsom = fail then
     return fail;
   elif DigraphNrVertices(GraphOfGraphInverseSemigroup(G1)) < 2 then
@@ -382,19 +382,19 @@ function(G1, G2)
   # order edges by their source and range, e_1 < e_2 if
   # Source(e_1) < Source(e_2) or Source(e_1) = Source(e_2) and
   # Range(e_1) < Range(e_2)
-  edges1 := ShallowCopy(EdgesOfGraphInverseSemigroup(G1));
-  edges2 := ShallowCopy(EdgesOfGraphInverseSemigroup(G2));
+  edges1 := List(EdgesOfGraphInverseSemigroup(G1), e -> e);
+  edges2 := List(EdgesOfGraphInverseSemigroup(G2), e -> e);
   n := DigraphNrVertices(GraphOfGraphInverseSemigroup(G1));
   SortBy(edges1, e -> n * IndexOfVertexOfGraphInverseSemigroup(Source(e)) +
                  IndexOfVertexOfGraphInverseSemigroup(Range(e)));
   SortBy(edges2, e -> n * OnPoints(
-           IndexOfVertexOfGraphInverseSemigroup(Source(e)), digraphIsom ^ -1) +
+           IndexOfVertexOfGraphInverseSemigroup(Source(e)), digraphIsom) +
            OnPoints(IndexOfVertexOfGraphInverseSemigroup(Range(e)),
-             digraphIsom ^ -1));
-  return SemigroupIsomorphismByImages(G1, G2,
-           Concatenation(edges1, VerticesOfGraphInverseSemigroup(G1),
-             List(edges1, e -> e ^ -1),
-             Concatenation(edges2, vertsImages, List(edges2, e -> e ^ -1))));
+             digraphIsom));
+  gens1 := Concatenation(edges1, VerticesOfGraphInverseSemigroup(G1),
+             List(edges1, e -> e ^ -1));
+  gens2 := Concatenation(edges2, vertsImages, List(edges2, e -> e ^ -1));
+  return SemigroupIsomorphismByImages(G1, G2, gens1, gens2);
 end);
 
 InstallMethod(EdgesWithRange,
