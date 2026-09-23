@@ -45,6 +45,11 @@ DeclareAttribute("VerticesOfGraphInverseSemigroup",
 DeclareAttribute("EdgesOfGraphInverseSemigroup",
                  IsGraphInverseSemigroup);
 
+DeclareOperation("IsIsomorphicGraphInverseSemigroup",
+                 [IsSemigroup]);
+DeclareOperation("IsomorphismGraphInverseSemigroup",
+                 [IsSemigroup]);
+
 DeclareAttribute("EdgesWithRange", IsGraphInverseSemigroupElement);
 DeclareAttribute("EdgesWithSource", IsGraphInverseSemigroupElement);
 DeclareOperation("PathsWithRange", [IsGraphInverseSemigroupElement]);

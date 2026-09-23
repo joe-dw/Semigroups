@@ -397,11 +397,72 @@ function(G1, G2)
   return SemigroupIsomorphismByImages(G1, G2, gens1, gens2);
 end);
 
+InstallMethod(IsIsomorphicGraphInverseSemigroup,
+"for a semigroup",
+[IsSemigroup],
+function(S)
+  local es, i, j, maximalEs, e, f;
+  if not IsInverseSemigroup(S) then
+    return false;
+  fi;
+  es := Idempotents(S);
+  if not ForAll([1 .. Length(es)], i -> ForAll([i + 1 .. Length(es)], j ->
+    es[i] * es[j] in [es[i], es[j], MultiplicativeZero(S)])) then
+    return false;
+  fi;
+  maximalEs := Filtered(es, e -> ForAll(es, f -> e * f in 
+    [f, MultiplicativeZero(S)]));
+  if not ForAll(es, e -> e = MultiplicativeZero(S) or 1 = Number(
+    maximalEs, f -> e * f <> MultiplicativeZero(S))) then
+    return false;
+  elif NrDClasses(S) <> Length(maximalEs) or not ForAll(maximalEs, e -> 1 =
+    Number(DClasses(S), D -> e in D)) then
+    return false;
+  elif EquivalenceRelationPartition(GreensHRelation(S)) <> [] then
+    return false;
+  fi;
+  return true;  
+end);
+
+InstallMethod(IsomorphismGraphInverseSemigroup,
+"for a semigroup",
+[IsSemigroup],
+function(S)
+  local es, zero, vs, EmV, vertLClasses, e, f, c, ees, edges, adjs, D, G;
+  if not IsIsomorphicGraphInverseSemigroup(S) then
+    return fail;
+  fi;
+  es := ShallowCopy(Idempotents(S));
+  zero := MultiplicativeZero(S);
+  Remove(es, Position(es, zero));
+  vs := Filtered(es, e -> ForAll(es, f -> e * f in [f, zero]));
+  EmV := Difference(es, vs);
+  vertLClasses := Filtered(GreensLClasses(S), c -> not IsEmpty(Intersection(
+    c, vs)));
+  ees := Filtered(EmV, e -> ForAll(EmV, f -> e * f in [f, zero]));
+  edges := Concatenation(List(vertLClasses, c -> Filtered(c, e ->
+    not IsEmpty(Intersection(GreensRClassOfElement(S, e), ees)))));
+  SortBy(edges, e -> Length(vs) * Position(vs, First(vs, v -> v * e = e)) +
+    Position(vs, First(vs, v -> e * v = e)));
+  adjs := List(vs, v -> []);
+  for e in edges do
+    Add(adjs[Position(vs, First(vs, v -> v * e = e))], Position(vs, First(vs, v -> e * v = e)));
+  od;
+  D := Digraph(adjs);
+  G := GraphInverseSemigroup(D);
+  if Length(vs) > 1 then
+    return SemigroupIsomorphismByImagesNC(S, G, Concatenation(edges, vs, List(
+      edges, e -> OneInverseOfSemigroupElementNC(S, e))), GeneratorsOfSemigroup(G));
+  fi;
+  return SemigroupIsomorphismByImagesNC(S, G, Concatenation(edges, vs, List(
+    edges, e -> OneInverseOfSemigroupElementNC(S, e)), [zero]), GeneratorsOfSemigroup(G));
+end);
+
 InstallMethod(EdgesWithRange,
 "for a graph inverse semigroup element",
 [IsGraphInverseSemigroupElement],
 function(x)
-  local G;
+  local G, es, maximalEs;
   G := FamilyObj(x)!.semigroup;
   if not IsFinite(G) then
     ErrorNoReturn("the graph inverse semigroup containing the argument",
