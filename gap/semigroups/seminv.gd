@@ -1,0 +1,1 @@
+DeclareAttribute("IsUnambiguousSemilattice", IsSemilattice);
