@@ -405,55 +405,76 @@ function(S)
   if not IsInverseSemigroup(S) then
     return false;
   fi;
-  es := Idempotents(S);
-  if not ForAll([1 .. Length(es)], i -> ForAll([i + 1 .. Length(es)], j ->
-    es[i] * es[j] in [es[i], es[j], MultiplicativeZero(S)])) then
+  es := IdempotentGeneratedSubsemigroup(S);
+  IsSemilattice(es);
+  if (not IsUnambiguousSemilattice(es)) or MultiplicativeZero(es) = fail then
     return false;
   fi;
-  maximalEs := Filtered(es, e -> ForAll(es, f -> e * f in 
-    [f, MultiplicativeZero(S)]));
-  if not ForAll(es, e -> e = MultiplicativeZero(S) or 1 = Number(
-    maximalEs, f -> e * f <> MultiplicativeZero(S))) then
-    return false;
-  elif NrDClasses(S) <> Length(maximalEs) or not ForAll(maximalEs, e -> 1 =
-    Number(DClasses(S), D -> e in D)) then
-    return false;
-  elif EquivalenceRelationPartition(GreensHRelation(S)) <> [] then
+  maximalEs := MaximalIdempotents(es);
+  Add(maximalEs, MultiplicativeZero(es));
+  if NrDClasses(S) <> Length(maximalEs) or not ForAll(DClasses(S), D -> 1 =
+    Number(maximalEs, e -> e in D)) then
     return false;
   fi;
-  return true;  
+  return IsHTrivial(S);
+end);
+
+BindGlobal("SEMIGROUPS_NonMaximalIdempotents", 
+S -> Difference(Elements(S), MaximalIdempotents(S)));
+
+BindGlobal("SEMIGROUPS_NextMaximalIdempotents",
+function(S) 
+  local HD, inNeighboursOfMax, maximalIs;
+  HD := HasseDigraph(S);
+  maximalIs := Positions(OutDegrees(HD), 0); 
+  inNeighboursOfMax := Concatenation(List(maximalIs, i -> List(
+    InNeighbours(HD)[i], j -> Elements(S)[j])));
+  Remove(inNeighboursOfMax, Position(inNeighboursOfMax,
+    MultiplicativeZero(S)));
+  return inNeighboursOfMax;
 end);
 
 InstallMethod(IsomorphismGraphInverseSemigroup,
 "for a semigroup",
 [IsSemigroup],
 function(S)
-  local es, zero, vs, EmV, vertLClasses, e, f, c, ees, edges, adjs, D, G;
+  local D, EmV, G, Lv, adjs, edges, eeDv, ees, sl, v, vertLClasses, vs, zero, p, i, j;
   if not IsIsomorphicGraphInverseSemigroup(S) then
     return fail;
   fi;
-  es := ShallowCopy(Idempotents(S));
+  sl := IdempotentGeneratedSubsemigroup(S);
   zero := MultiplicativeZero(S);
-  Remove(es, Position(es, zero));
-  vs := Filtered(es, e -> ForAll(es, f -> e * f in [f, zero]));
-  EmV := Difference(es, vs);
-  vertLClasses := Filtered(GreensLClasses(S), c -> not IsEmpty(Intersection(
-    c, vs)));
-  ees := Filtered(EmV, e -> ForAll(EmV, f -> e * f in [f, zero]));
-  edges := Concatenation(List(vertLClasses, c -> Filtered(c, e ->
-    not IsEmpty(Intersection(GreensRClassOfElement(S, e), ees)))));
-  SortBy(edges, e -> Length(vs) * Position(vs, First(vs, v -> v * e = e)) +
-    Position(vs, First(vs, v -> e * v = e)));
+  # vertices are maximal idempotents under the natural partial order
+  vs := MaximalIdempotents(sl);
+  # and ee^-1 elements for edges e are those maximal when vertices are
+  # removed
+  vertLClasses := List(vs, v -> GreensLClassOfElement(S, v));
+  ees := SEMIGROUPS_NextMaximalIdempotents(sl);
   adjs := List(vs, v -> []);
-  for e in edges do
-    Add(adjs[Position(vs, First(vs, v -> v * e = e))], Position(vs, First(vs, v -> e * v = e)));
+  edges := [];
+  for i in [1..Length(vs)] do
+    v := vs[i];
+    Lv := vertLClasses[i];
+    eeDv := Filtered(ees, ee -> ee in GreensDClassOfElement(S, v));
+    ees := Difference(ees, eeDv);
+    # paths are elements L related to vertices, so we take those L related
+    # to a vertex and choose only those that 
+    for p in Lv do
+      if p * OneInverseOfSemigroupElementNC(S, p) in eeDv then
+        Add(edges, p);
+        Add(adjs[i], First([1 .. Length(vs)], j -> vs[j] * p = p));
+      fi;
+    od;
   od;
-  D := Digraph(adjs);
+  # adjs indicates which vertices have edges from other vertices, so we want to
+  # reverse the digraph to obtain the original one from the GIS.
+  D := DigraphReverse(Digraph(adjs));
   G := GraphInverseSemigroup(D);
   if Length(vs) > 1 then
     return SemigroupIsomorphismByImagesNC(S, G, Concatenation(edges, vs, List(
       edges, e -> OneInverseOfSemigroupElementNC(S, e))), GeneratorsOfSemigroup(G));
   fi;
+  # only one vertex so zero needs adding to generating set and isomorphism
   return SemigroupIsomorphismByImagesNC(S, G, Concatenation(edges, vs, List(
     edges, e -> OneInverseOfSemigroupElementNC(S, e)), [zero]), GeneratorsOfSemigroup(G));
 end);
