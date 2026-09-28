@@ -429,16 +429,15 @@ function(S)
   maximalIs := Positions(OutDegrees(HD), 0); 
   inNeighboursOfMax := Concatenation(List(maximalIs, i -> List(
     InNeighbours(HD)[i], j -> Elements(S)[j])));
-  Remove(inNeighboursOfMax, Position(inNeighboursOfMax,
-    MultiplicativeZero(S)));
-  return inNeighboursOfMax;
+  return Difference(inNeighboursOfMax, [MultiplicativeZero(S)]);
 end);
 
 InstallMethod(IsomorphismGraphInverseSemigroup,
 "for a semigroup",
 [IsSemigroup],
 function(S)
-  local D, EmV, G, Lv, adjs, edges, eeDv, ees, sl, v, vertLClasses, vs, zero, p, i, j;
+  local D, G, Lv, adjs, edgeAndSourceRange, edges, eeDv, ees, sl, v,
+    vertLClasses, vs, zero, p, i, j, e, edgesG, gensS, gensG;
   if not IsIsomorphicGraphInverseSemigroup(S) then
     return fail;
   fi;
@@ -452,31 +451,40 @@ function(S)
   ees := SEMIGROUPS_NextMaximalIdempotents(sl);
   adjs := List(vs, v -> []);
   edges := [];
+  edgeAndSourceRange := [];
   for i in [1..Length(vs)] do
     v := vs[i];
     Lv := vertLClasses[i];
-    eeDv := Filtered(ees, ee -> ee in GreensDClassOfElement(S, v));
+    eeDv := Intersection(ees, GreensDClassOfElement(S, v));
     ees := Difference(ees, eeDv);
     # paths are elements L related to vertices, so we take those L related
-    # to a vertex and choose only those that 
+    # to a vertex and choose only those that are equal to some ee^-1 
     for p in Lv do
       if p * OneInverseOfSemigroupElementNC(S, p) in eeDv then
-        Add(edges, p);
-        Add(adjs[i], First([1 .. Length(vs)], j -> vs[j] * p = p));
+        Add(edgeAndSourceRange, [p, First([1 .. Length(vs)], j -> vs[j] * p = p), i]);
       fi;
     od;
   od;
-  # adjs indicates which vertices have edges from other vertices, so we want to
-  # reverse the digraph to obtain the original one from the GIS.
-  D := DigraphReverse(Digraph(adjs));
+  SortBy(edgeAndSourceRange, e -> Length(vs) * e[2] + e[3]);
+  for e in edgeAndSourceRange do
+    Add(edges, e[1]);
+    Add(adjs[e[2]], e[3]);
+  od;
+  D := Digraph(adjs);
   G := GraphInverseSemigroup(D);
+  edgesG := ShallowCopy(EdgesOfGraphInverseSemigroup(G));
+  SortBy(edgesG, e -> Length(vs) * IndexOfVertexOfGraphInverseSemigroup(
+    Source(e)) + IndexOfVertexOfGraphInverseSemigroup(Range(e)));
+  gensS := Concatenation(edges, vs, List(edges, e ->
+    OneInverseOfSemigroupElementNC(S, e)));
+  gensG := Concatenation(edgesG, VerticesOfGraphInverseSemigroup(G),
+    List(edgesG, e -> e ^ -1));
   if Length(vs) > 1 then
-    return SemigroupIsomorphismByImagesNC(S, G, Concatenation(edges, vs, List(
-      edges, e -> OneInverseOfSemigroupElementNC(S, e))), GeneratorsOfSemigroup(G));
+    Add(gensS, zero);
+    Add(gensG, MultiplicativeZero(G));
   fi;
   # only one vertex so zero needs adding to generating set and isomorphism
-  return SemigroupIsomorphismByImagesNC(S, G, Concatenation(edges, vs, List(
-    edges, e -> OneInverseOfSemigroupElementNC(S, e)), [zero]), GeneratorsOfSemigroup(G));
+  return SemigroupIsomorphismByImagesNC(S, G, gensS, gensG);
 end);
 
 InstallMethod(EdgesWithRange,
